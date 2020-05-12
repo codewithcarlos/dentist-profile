@@ -1,38 +1,105 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.calendar-container {
   display: flex;
-  flex-direction: column;
+}
+.navigation {
+  width: 215px;
+  display: block;
+  background: #f4f4f4;
+  height: 100vh;
+}
+.presentation {
+  width: 100%;
+  position: relative;
+}
+
+.calendar-table-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 215px;
+  right: 0;
+}
+.calendar-table {
+  display: flex;
+  height: auto;
+  margin: 0 5% 0 15px;
+  border-left: 1px solid;
+}
+.calendar-column {
+  width: 100%;
+  min-width: 81px;
+  flex: 1;
+  border-right: 1px solid;
+}
+.column-container {
+  width: 25%;
+}
+.column-header {
+  text-align: center;
+  font-weight: 600;
+  height: 30px;
+  padding: 5px;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+}
+.calendar-column .hour {
+  height: 30px;
+  border-top: 1px solid;
+  padding: 5px;
+}
+.calendar-column .half-hour {
+  height: 30px;
+  border-top: 1px dotted;
+  padding: 5px;
+}
+.calendar-row {
+  flex: 1;
+}
+.calendar-header {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-left: 10px;
+  margin: 0 0 10px 10px;
 }
-
-.App-link {
-  color: #61dafb;
+.nav-arrows {
+  cursor: pointer;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nav-arrows:hover {
+  color: blue;
+}
+.calendar-header-date {
+  display: inline;
+  font-size: 24px;
+  font-weight: 300;
+  margin: 0;
+}
+.calendar-hourly {
+  position: absolute;
+  top: 55px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: auto;
+}
+.calendar-hourly-labels {
+  text-align: right;
+  width: 60px;
+  padding: 30px 0;
+  float: left;
+  margin-left: 10px;
+}
+.calendar-hourly-labels > div {
+  height: 60px;
+  padding-right: 3px;
+  line-height: 20px;
+  width: 100%;
+  border-top: 1px solid;
+  text-align: left;
 }
