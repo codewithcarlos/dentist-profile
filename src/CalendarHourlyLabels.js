@@ -7,6 +7,8 @@ const CalendarHourlyLabels = () => {
     let label;
     if (i > 12) {
       label = i - 12 + " PM";
+    } else if (i === 12) {
+      label = "12 PM";
     } else {
       label = i + " AM";
     }

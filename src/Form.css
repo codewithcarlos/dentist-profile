@@ -1,0 +1,40 @@
+.login-form {
+  max-width: 350px;
+  margin: 0 auto;
+}
+.a-box {
+  display: block;
+  border-radius: 4px;
+  background-color: #fff;
+}
+.a-box-inner {
+  padding: 20px;
+}
+.form-control-a {
+  margin: 2rem 0;
+}
+.form-control-a label, .form-control-a textarea {
+  display: block;
+  width: 100%;
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+.form-control-a input {
+  height: 31px;
+  padding: 3px 7px;
+  font: inherit;
+  width: 100%;
+  border: 1px solid #a6a6a6;
+  border-top-color: #949494;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5), 0 1px 0 rgba(0, 0, 0, 0.07) inset;
+  outline: 0;
+}
+
+.save {
+  display: flex;
+  justify-content: flex-end;
+}
+.save .btn {
+  width: 100px;
+}

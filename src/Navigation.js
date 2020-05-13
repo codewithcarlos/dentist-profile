@@ -1,11 +1,12 @@
-import React from 'react'
+import React from "react";
+import CalendarPicker from "./CalendarPicker";
 
 const Navigation = () => {
   return (
     <div className="navigation">
-      This is the date picker
+      <CalendarPicker />
     </div>
-  )
-}
+  );
+};
 
-export default Navigation
+export default Navigation;
