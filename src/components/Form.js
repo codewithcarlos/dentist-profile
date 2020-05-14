@@ -35,16 +35,16 @@ const Form = (props) => {
       pad(tzo % 60)
     );
   };
-  const { handleClose, schedule, dispatch } = props;
+  const { handleClose, viewDate, dispatch } = props;
   const [calendarColumn, setCalendarColumn] = React.useState("Dentist");
   const [startTimeValue, setStartTimeValue] = React.useState(
-    new Date().adjustForTimeZone().slice(0, 16)
+    viewDate.adjustForTimeZone().slice(0, 16)
   );
   const [endTimeValue, setEndTimeValue] = React.useState(
-    new Date().addHours(1).adjustForTimeZone().slice(0, 16)
+    new Date(viewDate).addHours(1).adjustForTimeZone().slice(0, 16)
     // new Date(new Date().setHours(new Date().getHours() + 1))
   );
-  console.log("schedule is", schedule);
+  console.log("viewDate is", viewDate);
 
   const handleChange = (event) => {
     setCalendarColumn(event.target.value);
@@ -62,7 +62,7 @@ const Form = (props) => {
     const hour = Number(startTime.split(":")[0]);
     const minutes = Number(startTime.split(":")[1]);
     let start = hour * 60 + minutes + 30;
-    const endDate = endTimeValue.split("T")[0];
+    // const endDate = endTimeValue.split("T")[0];
     const end = (new Date(endTimeValue) - new Date(startTimeValue)) / 1000 / 60;
     console.log(startDate, startTime, calendarColumn, start, end);
     dispatch(updateSchedule(startDate, calendarColumn, start, end));
@@ -120,7 +120,8 @@ const Form = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  schedule: state.calendar.schedule,
+  // schedule: state.calendar.schedule,
+  viewDate: state.calendar.viewDate,
 });
 
 export default connect(mapStateToProps)(Form);

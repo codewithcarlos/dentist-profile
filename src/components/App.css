@@ -43,8 +43,10 @@
   border-right: 1px solid;
 }
 .column-container {
-  width: 25%;
-  min-width: 150px;
+  /* width: 25%;
+  min-width: 150px; */
+  width: 250px;
+  min-width: 250px;
 }
 .column-header {
   text-align: center;
@@ -151,12 +153,6 @@
   background: #fff;
   font-size: 16px;
 }
-.events {
-  top: 300px;
-  left: 70px;
-  background-color: #90caf9;
-  width: 21.4%;
-  min-width: 150px;
-  position: absolute;
-  height: 60px;
+.available {
+  padding-left: 5px;
 }

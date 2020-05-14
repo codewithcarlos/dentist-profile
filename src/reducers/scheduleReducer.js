@@ -30,7 +30,7 @@ const scheduleReducer = (state = intialState, action) => {
       return newState;
     }
     default: {
-      console.log("default case");
+      // console.log("default case");
       return state;
     }
   }
