@@ -1,13 +1,50 @@
 import React from "react";
 import "./Form.css";
-// import { MenuItem, Select } from "@material-ui/core";
+import { connect } from "react-redux";
+import { updateSchedule } from "../actions";
 
-const Form = ({ handleClose }) => {
+const Form = (props) => {
+  // eslint-disable-next-line no-extend-native
+  Date.prototype.addHours = function (h) {
+    this.setHours(this.getHours() + h);
+    return this;
+  };
+  // eslint-disable-next-line no-extend-native
+  Date.prototype.adjustForTimeZone = function () {
+    var tzo = -this.getTimezoneOffset(),
+      dif = tzo >= 0 ? "+" : "-",
+      pad = function (num) {
+        var norm = Math.floor(Math.abs(num));
+        return (norm < 10 ? "0" : "") + norm;
+      };
+    return (
+      this.getFullYear() +
+      "-" +
+      pad(this.getMonth() + 1) +
+      "-" +
+      pad(this.getDate()) +
+      "T" +
+      pad(this.getHours()) +
+      ":" +
+      pad(this.getMinutes()) +
+      ":" +
+      pad(this.getSeconds()) +
+      dif +
+      pad(tzo / 60) +
+      ":" +
+      pad(tzo % 60)
+    );
+  };
+  const { handleClose, schedule, dispatch } = props;
   const [calendarColumn, setCalendarColumn] = React.useState("Dentist");
   const [startTimeValue, setStartTimeValue] = React.useState(
-    "2018-06-12T19:30"
+    new Date().adjustForTimeZone().slice(0, 16)
   );
-  const [endTimeValue, setEndTimeValue] = React.useState("2018-06-12T20:30");
+  const [endTimeValue, setEndTimeValue] = React.useState(
+    new Date().addHours(1).adjustForTimeZone().slice(0, 16)
+    // new Date(new Date().setHours(new Date().getHours() + 1))
+  );
+  console.log("schedule is", schedule);
 
   const handleChange = (event) => {
     setCalendarColumn(event.target.value);
@@ -20,7 +57,15 @@ const Form = ({ handleClose }) => {
   };
   const handleSave = (e) => {
     e.preventDefault();
-    console.log(calendarColumn, startTimeValue, endTimeValue);
+    const startDate = startTimeValue.split("T")[0];
+    const startTime = startTimeValue.split("T")[1];
+    const hour = Number(startTime.split(":")[0]);
+    const minutes = Number(startTime.split(":")[1]);
+    let start = hour * 60 + minutes + 30;
+    const endDate = endTimeValue.split("T")[0];
+    const end = (new Date(endTimeValue) - new Date(startTimeValue)) / 1000 / 60;
+    console.log(startDate, startTime, calendarColumn, start, end);
+    dispatch(updateSchedule(startDate, calendarColumn, start, end));
     handleClose();
   };
 
@@ -74,4 +119,8 @@ const Form = ({ handleClose }) => {
   );
 };
 
-export default Form;
+const mapStateToProps = (state) => ({
+  schedule: state.calendar.schedule,
+});
+
+export default connect(mapStateToProps)(Form);
