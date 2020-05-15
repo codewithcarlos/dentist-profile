@@ -24,10 +24,10 @@ blocks should
  
 
 ## Technologies Used:
-React - Uses React Hooks for all components
-Redux - For state management
-Javascript - For date manipulation and business logic
-Material-UI - Provided a handy UI components such as Modal and Tabs
+* React - Uses React Hooks for all components
+* Redux - For state management
+* Javascript - For date manipulation and business logic
+* Material-UI - Provided a handy UI components such as Modal and Tabs
 
 
 ## Potential Improvements
@@ -35,4 +35,6 @@ This app had a deadline of 5 days and as such has room for improvement. Some ide
 1. Ability to drag over time slots and create shading on the fly (such as in Google calendar, Yahoo calendar, Outlook, etc).
 2. Ability to display calendar by week and by month. I created the tabs component that would have the onClick handlers for this feature, but didn't have time to implement the actual functionality. Displaying by week or month would have to provided different views and need some consideration on what information to display because displaying all 3 columns (Dentist, Assistant, and Hygenist) would be too cluttered.
 3. Automated tests to test if the correct dates are being stored and if the calendar is updating properly. I did a lot of manual inspection and checking for edges cases, but having automated tests is obviously preferred.
-4. Persistent store. Since state was stored in a document-like fashion (using Javascript objects), the transition to storing the data to a NoSQL database would be seamless.
+4. Persistent storage. Since state was stored in a document-like fashion (using Javascript objects), the transition to storing the data to a NoSQL database would be seamless.
+5. Cross-compatibility - This app uses the <input type="datetime-local"> HTML feature which only Chrome/Opera and Edge have usuable implementations of on desktop. Another thing I noticed was that my version of Safari (v10.1.2) does not support the spread operator on objects. Thus, I would need to write longer code to enable my app to render on Safari and perhaps other browsers that don't support more advanced Javascript features.
+6. Mobile-friendly? - I believe having a separate mobile implementation of this app would be better than making this web application a responsive website. Thus, I intentionally made it so that the CSS styling would encourage users to use the app with a full desktop screen. Google and Yahoo calendars also take this approach of encouraging users to use the full desktop screen as their calendars only shrink so much before hitting min width styling.
