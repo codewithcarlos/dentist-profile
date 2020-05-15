@@ -15,8 +15,8 @@ const CalendarColumn = (props) => {
   const hour = Number(timeLookup.split(":")[0]);
   const minutes = Number(timeLookup.split(":")[1]);
 
-  // the addition of 30 is because the headers (Dentist, Assistant, Hygenist) take up 30px of space
-  let scrollLookup = hour * 60 + minutes + 30;
+  // the subraction of 30 is because the headers (Dentist, Assistant, Hygenist) take up 30px of space
+  let scrollLookup = hour * 60 + minutes - 30;
   scrollLookup = `Dentist-${Math.floor(scrollLookup / 30) * 30}`;
 
   // transformation logic so that availability appears on the correct time block
