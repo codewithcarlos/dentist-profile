@@ -4,14 +4,14 @@ Dentist-Profile is a scheduling app that enables dentists to easily notify their
 The schedule layout enables the dentist to update the schedules of the dentist, assistant, and hygenist by clicking on a button and filling out a short form. The calendar then updates by shading the time slots marked available with blue. It also informs the scheduler of the start and end time of the available block.
 
 The four main requirements of this app were as follows:
-1 - Create a schedule layout using react and JSX. Style using whatever means desired.
-2 - Create a button that onClick opens up a modal
-3 - Within the modal, create a form with the following three fields:
+1. Create a schedule layout using react and JSX. Style using whatever means desired.
+2. Create a button that onClick opens up a modal
+3. Within the modal, create a form with the following three fields:
   * Select Column (as a dropdown)
   * Start time
   * End time
 - When the modal is saved, close the modal and store the information however desired (I chose to store it in state using Redux).
-4 - Using the saved information, display the newly created time block(s) on the schedule. The
+4. Using the saved information, display the newly created time block(s) on the schedule. The
 blocks should
 - Appear only in the column that they were selected for.
 - Start at the selected start time and continue until the end time.
