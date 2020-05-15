@@ -1,7 +1,6 @@
 import React from "react";
-// import DateTabs from "./DateTabs";
-import CenteredTabs from "./MaterialTabs";
-import TransitionsModal from "./MaterialModal";
+import MaterialTabs from "./MaterialTabs";
+import MaterialModal from "./MaterialModal";
 
 const Toolbar = () => {
   return (
@@ -13,10 +12,8 @@ const Toolbar = () => {
           alt="CallForce Dental Scheduling"
         />
       </a>
-      <CenteredTabs />
-      {/* <DateTabs /> */}
-      {/* <button className="btn">Add Availability</button> */}
-      <TransitionsModal />
+      <MaterialTabs />
+      <MaterialModal />
     </div>
   );
 };

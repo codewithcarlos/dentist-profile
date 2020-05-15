@@ -4,7 +4,6 @@ import CalendarColumn from "./CalendarColumn";
 const CalendarTable = () => {
   const columns = ["Dentist", "Assistant", "Hygenist"];
   return (
-    // <div className="calendar-table-container">
     <div className="calendar-table">
       {columns.map((column, i) => (
         <div className="column-container" key={i}>
@@ -13,7 +12,6 @@ const CalendarTable = () => {
         </div>
       ))}
     </div>
-    // </div>
   );
 };
 

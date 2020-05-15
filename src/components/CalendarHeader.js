@@ -16,13 +16,11 @@ const CalendarHeader = (props) => {
 
   const handlePrevDayClick = () => {
     const newDate = new Date(viewDate.setDate(viewDate.getDate() - 1));
-    console.log("left click", newDate.toLocaleDateString("en-US", options));
     dispatch(updateViewDate(newDate));
   };
 
   const handleNextDayClick = () => {
     const newDate = new Date(viewDate.setDate(viewDate.getDate() + 1));
-    console.log("right click", newDate.toLocaleDateString("en-US", options));
     dispatch(updateViewDate(newDate));
   };
 

@@ -8,7 +8,6 @@ const CalendarPicker = (props) => {
   const { dispatch, viewDate } = props;
 
   const handleDateChange = (updatedDate) => {
-    // console.log(updatedDate)
     dispatch(updateViewDate(updatedDate));
   };
 

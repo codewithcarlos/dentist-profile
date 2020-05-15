@@ -6,11 +6,20 @@ import adjustForTimeZone from "../utils/dates";
 const CalendarColumn = (props) => {
   const { calendar, prefix } = props;
   const { schedule, viewDate } = calendar;
-  const timeLookup = adjustForTimeZone(viewDate).split("T")[0];
-  const scheduleLookup = schedule[timeLookup];
+  const dateLookup = adjustForTimeZone(viewDate).split("T")[0];
+  const scheduleLookup = schedule[dateLookup];
   const startTimes = scheduleLookup ? scheduleLookup[prefix] : scheduleLookup;
   const events = {};
 
+  const timeLookup = adjustForTimeZone(viewDate).split("T")[1];
+  const hour = Number(timeLookup.split(":")[0]);
+  const minutes = Number(timeLookup.split(":")[1]);
+
+  // the addition of 30 is because the headers (Dentist, Assistant, Hygenist) take up 30px of space
+  let scrollLookup = hour * 60 + minutes + 30;
+  scrollLookup = `Dentist-${Math.floor(scrollLookup / 30) * 30}`;
+
+  // transformation logic so that availability appears on the correct time block
   for (let key in startTimes) {
     events[Math.floor(key / 30) * 30] = {
       ...startTimes[key],
@@ -50,10 +59,10 @@ const CalendarColumn = (props) => {
           dataTime={`${prefix}-${block}`}
           calendarEvent={events[block + 30]}
           divStyle={events[block + 30] ? divStyle : { width: 0 }}
-          height={events[block + 30] ? events[block + 30]["end"] : 0}
-          top={block + 30}
+          scrollLookup={scrollLookup}
         />
       ))}
+      <div className="filler"></div>
     </div>
   );
 };

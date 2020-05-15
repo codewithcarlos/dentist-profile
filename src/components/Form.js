@@ -2,6 +2,7 @@ import React from "react";
 import "./Form.css";
 import { connect } from "react-redux";
 import { updateSchedule } from "../actions";
+import adjustForTimeZone from "../utils/dates";
 
 const Form = (props) => {
   // eslint-disable-next-line no-extend-native
@@ -9,42 +10,28 @@ const Form = (props) => {
     this.setHours(this.getHours() + h);
     return this;
   };
-  // eslint-disable-next-line no-extend-native
-  Date.prototype.adjustForTimeZone = function () {
-    var tzo = -this.getTimezoneOffset(),
-      dif = tzo >= 0 ? "+" : "-",
-      pad = function (num) {
-        var norm = Math.floor(Math.abs(num));
-        return (norm < 10 ? "0" : "") + norm;
-      };
-    return (
-      this.getFullYear() +
-      "-" +
-      pad(this.getMonth() + 1) +
-      "-" +
-      pad(this.getDate()) +
-      "T" +
-      pad(this.getHours()) +
-      ":" +
-      pad(this.getMinutes()) +
-      ":" +
-      pad(this.getSeconds()) +
-      dif +
-      pad(tzo / 60) +
-      ":" +
-      pad(tzo % 60)
-    );
-  };
   const { handleClose, viewDate, dispatch } = props;
   const [calendarColumn, setCalendarColumn] = React.useState("Dentist");
   const [startTimeValue, setStartTimeValue] = React.useState(
-    viewDate.adjustForTimeZone().slice(0, 16)
+    adjustForTimeZone(viewDate).slice(0, 16)
   );
   const [endTimeValue, setEndTimeValue] = React.useState(
-    new Date(viewDate).addHours(1).adjustForTimeZone().slice(0, 16)
+    adjustForTimeZone(new Date(viewDate).addHours(1)).slice(0, 16)
     // new Date(new Date().setHours(new Date().getHours() + 1))
   );
-  console.log("viewDate is", viewDate);
+
+  // ensure that end time is at least one minute after start time
+  let minDate = new Date(startTimeValue);
+  minDate = adjustForTimeZone(
+    new Date(minDate.getTime() + 1000 * 60)
+  ).slice(0, 16);
+
+  // ensure same day scheduling
+  let maxDate = new Date(startTimeValue);
+  maxDate =
+    adjustForTimeZone(new Date(maxDate.setDate(maxDate.getDate() + 1)))
+      .slice(0, 16)
+      .split("T")[0] + "T00:00";
 
   const handleChange = (event) => {
     setCalendarColumn(event.target.value);
@@ -58,14 +45,38 @@ const Form = (props) => {
   const handleSave = (e) => {
     e.preventDefault();
     const startDate = startTimeValue.split("T")[0];
-    const startTime = startTimeValue.split("T")[1];
+    let startTime = startTimeValue.split("T")[1];
+    let endTime = endTimeValue.split("T")[1];
+
+    function formatAMPM(hour, minutes) {
+      let formattedTime;
+      if (minutes < 10) {
+        minutes = "0" + minutes;
+      }
+      if (hour > 12) {
+        formattedTime = `${hour - 12}:${minutes}PM`;
+      } else if (hour === 12) {
+        formattedTime = `12:${minutes}PM`;
+      } else if (hour === 0) {
+        formattedTime = `12:${minutes}AM`;
+      } else {
+        formattedTime = `${hour}:${minutes}AM`;
+      }
+      return formattedTime;
+    }
     const hour = Number(startTime.split(":")[0]);
     const minutes = Number(startTime.split(":")[1]);
+    const endHour = Number(endTime.split(":")[0]);
+    const endMinutes = Number(endTime.split(":")[1]);
+
+    startTime = formatAMPM(hour, minutes);
+    endTime = formatAMPM(endHour, endMinutes);
     let start = hour * 60 + minutes + 30;
-    // const endDate = endTimeValue.split("T")[0];
-    const end = (new Date(endTimeValue) - new Date(startTimeValue)) / 1000 / 60;
-    console.log(startDate, startTime, calendarColumn, start, end);
-    dispatch(updateSchedule(startDate, calendarColumn, start, end));
+    let end = (new Date(endTimeValue) - new Date(startTimeValue)) / 1000 / 60;
+    if (end < 30) end = 30;
+    dispatch(
+      updateSchedule(startDate, calendarColumn, start, end, startTime, endTime)
+    );
     handleClose();
   };
 
@@ -76,7 +87,7 @@ const Form = (props) => {
           <div className="a-box-inner">
             <h2 className="a-spacing-small">Update Availability</h2>
             <div className="form-control-a">
-              <label htmlFor="calendarColumn">Select a Calendar</label>
+              <label htmlFor="calendarColumn">Select a column</label>
               <select
                 value={calendarColumn}
                 onChange={handleChange}
@@ -104,6 +115,8 @@ const Form = (props) => {
                 id="meeting-time"
                 name="meeting-time"
                 value={endTimeValue}
+                min={minDate}
+                max={maxDate}
                 onChange={(e) => handleEndTime(e)}
               ></input>
             </div>
@@ -120,7 +133,6 @@ const Form = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  // schedule: state.calendar.schedule,
   viewDate: state.calendar.viewDate,
 });
 

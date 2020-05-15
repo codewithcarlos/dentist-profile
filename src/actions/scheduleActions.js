@@ -7,9 +7,9 @@ export const updateViewDate = (updatedDate) => {
   };
 };
 
-export const updateSchedule = (startDate, scheduleColumn, start, end) => {
+export const updateSchedule = (startDate, scheduleColumn, start, end, startTime, endTime) => {
   return {
     type: CONSTANTS.UPDATE_SCHEDULE,
-    payload: { startDate, scheduleColumn, start, end },
+    payload: { startDate, scheduleColumn, start, end, startTime, endTime },
   };
 };
